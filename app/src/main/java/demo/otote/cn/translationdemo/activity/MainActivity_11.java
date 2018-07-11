@@ -42,6 +42,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,6 +91,7 @@ public class MainActivity_11 extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_main_11 );
+        setBaiduAppID();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -937,6 +940,22 @@ public class MainActivity_11 extends AppCompatActivity
         });
     }
 
+    private void setBaiduAppID(){
+        String choose = "baidu";
+        String appid = "20180601000170165";
+        String pw = "hV3H2qtuOhw8ShIy0wzJ";
+        File dir = getApplicationContext().getFilesDir();//查找这个应用下的所有文件所在的目录
+        Log.d("文件夹：" , dir.getAbsolutePath());
+        FileWriter writer;
+        try {
+            writer = new FileWriter(dir.getAbsolutePath() + "/userinfo.txt");
+            writer.append(appid+","+pw+","+ choose);
+            writer.close();
+            ToastUtil.showToast(MainActivity_11.this,"设置成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

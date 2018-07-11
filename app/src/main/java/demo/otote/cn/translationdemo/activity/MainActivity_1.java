@@ -234,6 +234,7 @@ public class MainActivity_1 extends AppCompatActivity {
                 }
                 Log.d(TAG,"识别结果"+result);
                 SynthesisManager.getSingleton().startSpeaking(result);
+//                SynthesisManager.getSingleton().startSpeaking( result);
             }
         }
 
