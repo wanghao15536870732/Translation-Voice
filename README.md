@@ -1,12 +1,56 @@
-# Translation-Voice
-## 一个整合百度翻译（支持多种语言）跟科大讯飞的口语翻译app
+<div align="center">
+<img src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/logo_t.png" height="100px" width="100px"/>
+ 
+<h1>  Translation-Voice（语译） </h1>
+
+#### 一个整合百度翻译（支持多种语言）跟科大讯飞的口语翻译app
+<br />
+<a href="https://github.com/wanghao15536870732/Translation-Voice/blob/master/app-release.apk?raw=true">点击下载</a>
+
+<br />
+
+### Feature (功能)
+
+<table border="1px solid green" style="border-collapse: collapse" cellpadding="15">
+        <tr>
+            <th width="100px">功能名称</th>
+            <td align="center"><strong>功能描述</strong></td>
+        </tr>
+        <tr>
+            <th>翻译功能</th>
+            <td align="center">用户只需安装好app,并且在保持网络良好的情况下，即可进行十几种语言的相互翻译</td>
+        </tr>
+        <tr>
+            <th>生词本功能</th>
+            <td align="center">1) 用户在进行语言的翻译后，就会出现一个对应的翻译item,用户通过点击星星即可进行收藏，之后可以在侧滑栏当中的生词本进行查看
+        </tr>
+        <tr>
+            <th>语音识别功能</th>
+            <td align="center">用户通过点击该功能，可以将不标准的语言转换成普通话，进行播放，只是暂时只支持汉语跟英语</td>
+        </tr>
+        <tr>
+            <th>语音合成</th>
+            <td align="center">用户通过点击该功能，可以将翻译界面翻译好的词，进行语音播放，暂时只支持汉语跟英语</td>
+        </tr>
+        <tr>
+            
+</table>
+
+<br />
+
+
+## 功能界面
 |||
 |:--:|:--:|
-|百度翻译界面|科大讯飞语音识别跟语音合成界面|
-|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/Screenshot_20180621-190257.png"/></div>|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/Screenshot_20180621-190304.png"/>|
-|选择想要翻译的语言|选择目标语言|
-|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/Screenshot_20180621-190249.png"/></div> |<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/Screenshot_20180621-190238.png"/></div>|
-
+|百度翻译界面|侧滑栏界面|
+|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162118.png"/></div>|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162101.png"/>|
+|实际中语言互相翻译|侧滑栏的生词本|
+|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162149.png"/></div> |<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162237.png"/></div>|
+|科大讯飞语音识别跟界面|科大讯飞语音合成界面|
+|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162224.png"/></div> | <div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162231.png"/></div>|
+ 
+ 
+ 
 ## 添加的依赖
 ```java
  implementation fileTree(dir: 'libs', include: ['*.jar'])
