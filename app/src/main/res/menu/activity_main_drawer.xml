@@ -3,22 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="">
+    <group android:id="@+id/nav_translation" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="翻译"
+            android:icon="@drawable/ic_g_translate_black_24dp"
+            />
+    </group>
 
-            <item
-                android:id="@+id/nav_home"
-                android:title="翻译" />
+    <group android:id="@+id/nav_notebook" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_word"
+            android:title="生词本"
+            android:icon="@drawable/ic_event_note_black_24dp"/>
+    </group>
 
-            <item
-                android:id="@+id/nav_word"
-                android:title="生词本" />
-            <item
-                android:id="@+id/nav_setting"
-                android:title="设置" />
-            <item
-                android:id="@+id/nav_help"
-                android:title="帮助" />
+    <group android:id="@+id/nav_settings" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_setting"
+            android:title="设置"
+            android:icon="@drawable/ic_settings_black_24dp"/>
+    </group>
 
-    </item>
-
+    <group android:id="@+id/nav_helps" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_help"
+            android:title="帮助"
+            android:icon="@drawable/ic_help_black_24dp"/>
+    </group>
 </menu>
