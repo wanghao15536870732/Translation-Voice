@@ -38,7 +38,7 @@
             android:name=".activity.GuideActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="欢迎" />
-        <activity android:name=".activity.MainActivity_11"
+        <activity android:name=".activity.TranslationActivity"
             android:label="Translation"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -52,7 +52,7 @@
             android:label="帮助"/>
         <activity android:name=".Glossary.MyWordRecycleViewActivity"
             android:label="生词本"/>
-        <activity android:name=".activity.MainActivity_1"/>
+        <activity android:name=".activity.VoiceActivity"/>
     </application>
 
 </manifest>

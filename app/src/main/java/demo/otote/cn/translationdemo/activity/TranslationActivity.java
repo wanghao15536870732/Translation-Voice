@@ -34,6 +34,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,9 +57,11 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import demo.otote.cn.translationdemo.BaseEnum.DictationResult;
 import demo.otote.cn.translationdemo.Glossary.LinearAdapter;
 import demo.otote.cn.translationdemo.Glossary.MyWordRecycleViewActivity;
 import demo.otote.cn.translationdemo.Glossary.MyHistory;
@@ -59,9 +71,9 @@ import demo.otote.cn.translationdemo.ToastUtil;
 import demo.otote.cn.translationdemo.getContent;
 import demo.otote.cn.translationdemo.getContentYouDao;
 
-public class MainActivity_11 extends AppCompatActivity
+public class TranslationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private Button mBtnTranslation, mBtnOriginal,mBtnTs,mBtnSpeech;
+    private Button mBtnTranslation, mBtnOriginal,mBtnTs,mBtnSpeech,mBtnVoiceToText;
     private ImageButton mIbTran;
     private EditText mEtInput;
     private TextView mTvResult;
@@ -72,6 +84,9 @@ public class MainActivity_11 extends AppCompatActivity
     getContent content ;
     getContentYouDao ContentYouDao;
     String json4;
+
+    //有动画效果
+    private RecognizerDialog iatDialog;
 
     private Context mContext;
     public void setJson4(String json4) {
@@ -84,13 +99,14 @@ public class MainActivity_11 extends AppCompatActivity
 
     private String url="";
 
-    final String[] array=new String[]{"自动","中文","英文","文言文",
-            "日语","韩语","法语","俄语","泰语","阿拉伯语","越南语","希腊语"};
+    final String[] array = new String[]{"自动","中文","英文","文言文",
+            "日语","韩语","法语","俄语","泰语","阿拉伯语","越南语",
+            "希腊语","西班牙语","葡萄牙语","德语","意大利语","捷克语","匈牙利语"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_main_11 );
+        setContentView( R.layout.activity_translation );
         setBaiduAppID();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,6 +115,7 @@ public class MainActivity_11 extends AppCompatActivity
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
 
+        mBtnVoiceToText = findViewById( R.id.btn_voice_to_text );
         mBtnSpeech =findViewById( R.id.btn_speech );
         mTvResult = findViewById(R.id.tv_result);
         mEtInput = findViewById(R.id.et_input);
@@ -111,6 +128,13 @@ public class MainActivity_11 extends AppCompatActivity
         myHistory=new MyHistory(getApplicationContext());
         loadHistory();
 
+        mBtnVoiceToText.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                voice_to_text();
+            }
+        } );
+
         /****
          * 设置源语言
          */
@@ -120,7 +144,7 @@ public class MainActivity_11 extends AppCompatActivity
 
                 String[] strs = readerVlaue();
                 if (strs == null) {
-                    ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+                    ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
                     return;
                 } else if (strs[2].equals("baidu")) {
                     OriginalLanguage();
@@ -141,7 +165,7 @@ public class MainActivity_11 extends AppCompatActivity
 
                 String[] strs = readerVlaue();
                 if (strs == null) {
-                    ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+                    ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
                     return;
                 } else if (strs[2].equals("baidu")) {
                     TranLanguage();
@@ -163,7 +187,7 @@ public class MainActivity_11 extends AppCompatActivity
 
                 String[] strs = readerVlaue();
                 if (strs == null) {
-                    ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+                    ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
                     return;
                 } else if (strs[2].equals("baidu")) {
                    baiduTran(view,null);
@@ -181,8 +205,8 @@ public class MainActivity_11 extends AppCompatActivity
         mBtnSpeech.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(),MainActivity_1.class );
-                intent.putExtra( MainActivity_1.TEXT,mTvResult.getText().toString() );
+                Intent intent = new Intent(getBaseContext(),VoiceActivity.class );
+                intent.putExtra( VoiceActivity.TEXT,mTvResult.getText().toString() );
                 getBaseContext().startActivity( intent);
             }
         } );
@@ -197,7 +221,7 @@ public class MainActivity_11 extends AppCompatActivity
 
                 String[] strs = readerVlaue();
                 if (strs == null) {
-                    ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+                    ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
                     return;
                 }else if (strs[2].equals("youdao")){
                     return;
@@ -261,6 +285,37 @@ public class MainActivity_11 extends AppCompatActivity
                     case 11:
                         content.setFrom( "el" );
                         break;
+
+                    //西班牙语
+                    case 12:
+                        content.setFrom( "spa" );
+                        break;
+
+                    //葡萄牙语
+                    case 13:
+                        content.setFrom( "pt" );
+                        break;
+
+                    //德语
+                    case 14:
+                        content.setFrom( "de" );
+                        break;
+
+                    //意大利语
+                    case 15:
+                        content.setFrom( "it" );
+                        break;
+
+                    //捷克语
+                    case 16:
+                        content.setFrom( "cs" );
+                        break;
+
+                    //匈牙利语
+                    case 17:
+                        content.setFrom( "hu" );
+                        break;
+
                 }
 
                 switch (i) {
@@ -313,6 +368,36 @@ public class MainActivity_11 extends AppCompatActivity
                     case 11:
                         content.setTo( "el" );
                         break;
+
+                    //西班牙语
+                    case 12:
+                        content.setTo( "spa" );
+                        break;
+
+                    //葡萄牙语
+                    case 13:
+                        content.setTo( "pt" );
+                        break;
+
+                    //德语
+                    case 14:
+                        content.setTo( "de" );
+                        break;
+
+                    //意大利语
+                    case 15:
+                        content.setTo( "it" );
+                        break;
+
+                    //捷克语
+                    case 16:
+                        content.setTo( "cs" );
+                        break;
+
+                    //匈牙利语
+                    case 17:
+                        content.setTo( "hu" );
+                        break;
                 }
                 setTsId(i);
                 setOgId(j);
@@ -354,13 +439,13 @@ public class MainActivity_11 extends AppCompatActivity
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_setting) {
-            Intent intent = new Intent(MainActivity_11.this, IDActivity.class);
+            Intent intent = new Intent(TranslationActivity.this, IDActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_help) {
-            Intent intent = new Intent(MainActivity_11.this, HelpActivity.class);
+            Intent intent = new Intent(TranslationActivity.this, HelpActivity.class);
             startActivity(intent);
         }else if (id == R.id.nav_word) {
-            Intent intent = new Intent(MainActivity_11.this, MyWordRecycleViewActivity.class);
+            Intent intent = new Intent(TranslationActivity.this, MyWordRecycleViewActivity.class);
             startActivity(intent);
         }
 
@@ -534,7 +619,7 @@ public class MainActivity_11 extends AppCompatActivity
         int temp=0;
         String[] strs = readerVlaue();
         if (strs == null) {
-            ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+            ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
             return;
         }
         ContentYouDao.setValue(strs[0], strs[1]);
@@ -543,7 +628,7 @@ public class MainActivity_11 extends AppCompatActivity
         if(info==null){
             info = mEtInput.getText().toString();
             if(TextUtils.isEmpty(mEtInput.getText())) {
-                ToastUtil.showToast(MainActivity_11.this, "请输入要翻译的内容");
+                ToastUtil.showToast(TranslationActivity.this, "请输入要翻译的内容");
                 return;
             }
         }else{
@@ -589,7 +674,7 @@ public class MainActivity_11 extends AppCompatActivity
                 result=query+"    "+"\n"+tranresult+"\n"+"\n\n"+explain+"\n"+terms;
             }
         }else {
-            ToastUtil.showToast(MainActivity_11.this,"errorcode:"+errorcode);
+            ToastUtil.showToast(TranslationActivity.this,"errorcode:"+errorcode);
             return;
         }
 
@@ -611,7 +696,7 @@ public class MainActivity_11 extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 MediaPlayer mp=new MediaPlayer();
-                mp = MediaPlayer.create(MainActivity_11.this,
+                mp = MediaPlayer.create(TranslationActivity.this,
                         Uri.parse(url));
                 mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
@@ -630,7 +715,7 @@ public class MainActivity_11 extends AppCompatActivity
          */
          if(TextUtils.isEmpty(mEtInput.getText())){
              mTvResult.setVisibility(View.GONE);
-             ToastUtil.showToast(MainActivity_11.this,"请输入要翻译的内容");
+             ToastUtil.showToast(TranslationActivity.this,"请输入要翻译的内容");
          }else {
               if (mTvResult.getText().toString()!=null){
                  mTvResult.setVisibility(View.VISIBLE);
@@ -649,11 +734,11 @@ public class MainActivity_11 extends AppCompatActivity
     }
 
     public void OriginalLanguage(){
-        final AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity_11.this);
+        final AlertDialog.Builder builder=new AlertDialog.Builder(TranslationActivity.this);
         builder.setTitle("选择语言").setSingleChoiceItems(array, OgId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ToastUtil.showToast(MainActivity_11.this,"已选择"+array[i]);
+                ToastUtil.showToast(TranslationActivity.this,"已选择"+array[i]);
                 Log.d("选择的语言",array[i]);
 
                 setOgId(i);
@@ -707,17 +792,41 @@ public class MainActivity_11 extends AppCompatActivity
                     case "希腊语":
                         content.setFrom( "el" );
                         break;
+
+                    case "西班牙语":
+                        content.setFrom( "spa" );
+                        break;
+
+                    case "葡萄牙语":
+                        content.setFrom( "pt" );
+                        break;
+
+                    case "德语":
+                        content.setFrom( "de" );
+                        break;
+
+                    case "意大利语":
+                        content.setFrom( "it" );
+                        break;
+
+                    case "捷克语":
+                        content.setFrom( "cs" );
+                        break;
+
+                    case "匈牙利语":
+                        content.setFrom( "hu" );
+                        break;
                 }
                 dialogInterface.dismiss();
             }
         }).show();
     }
     public void TranLanguage(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity_11.this);
+        AlertDialog.Builder builder=new AlertDialog.Builder(TranslationActivity.this);
         builder.setTitle("请选择目标语言").setSingleChoiceItems(array, TsId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ToastUtil.showToast(MainActivity_11.this,"已选择"+array[i]);
+                ToastUtil.showToast(TranslationActivity.this,"已选择"+array[i]);
                 Log.d("选择的目标语言",array[i]);
 
                 setTsId(i);
@@ -771,6 +880,30 @@ public class MainActivity_11 extends AppCompatActivity
                     case "希腊语":
                         content.setTo( "el" );
                         break;
+
+                    case "西班牙语":
+                        content.setTo( "spa" );
+                        break;
+
+                    case "葡萄牙语":
+                        content.setTo( "pt" );
+                        break;
+
+                    case "德语":
+                        content.setTo( "de" );
+                        break;
+
+                    case "意大利语":
+                        content.setTo( "it" );
+                        break;
+
+                    case "捷克语":
+                        content.setTo( "cs" );
+                        break;
+
+                    case "匈牙利语":
+                        content.setTo( "hu" );
+                        break;
                 }
                 dialogInterface.dismiss();
             }
@@ -782,14 +915,14 @@ public class MainActivity_11 extends AppCompatActivity
         String[] strs = readerVlaue();
         int temp= 0;
         if (strs == null) {
-            ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+            ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
             return;
         }
 
         if(info==null){
             info = mEtInput.getText().toString();
             if(TextUtils.isEmpty(mEtInput.getText())) {
-                ToastUtil.showToast(MainActivity_11.this, "请输入要翻译的内容");
+                ToastUtil.showToast(TranslationActivity.this, "请输入要翻译的内容");
                 return;
             }
         }else{
@@ -812,7 +945,7 @@ public class MainActivity_11 extends AppCompatActivity
              */
             if(TextUtils.isEmpty(mEtInput.getText())){
                 mTvResult.setVisibility(View.GONE);
-                ToastUtil.showToast(MainActivity_11.this,"请输入要翻译的内容");
+                ToastUtil.showToast(TranslationActivity.this,"请输入要翻译的内容");
             }else {
                 if (mTvResult.getText().toString()!=null){
                     mTvResult.setVisibility(View.VISIBLE);
@@ -875,16 +1008,16 @@ public class MainActivity_11 extends AppCompatActivity
         final ArrayList<String> list=inputtohistory();
         Log.d("获取的数组结果：",list.toString());
         mRvMain=findViewById(R.id.rv_main);
-        final LinearAdapter linearAdapter=new LinearAdapter(MainActivity_11.this,list);
+        final LinearAdapter linearAdapter=new LinearAdapter(TranslationActivity.this,list);
         mRvMain.setItemAnimator(new DefaultItemAnimator());
-        mRvMain.setLayoutManager(new LinearLayoutManager(MainActivity_11.this));
+        mRvMain.setLayoutManager(new LinearLayoutManager(TranslationActivity.this));
         mRvMain.setAdapter(linearAdapter);
 
         //      调用按钮返回事件回调的方法
         linearAdapter.buttonSetOnclick(new LinearAdapter.ButtonInterface() {
             @Override
             public void onclick(View view, int position) {
-                ToastUtil.showToast(MainActivity_11.this,"已收藏");
+                ToastUtil.showToast(TranslationActivity.this,"已收藏");
                 String[] s=list.get(position).split("\n");
                 click1(view,s[0],s[1]);
             }
@@ -898,7 +1031,7 @@ public class MainActivity_11 extends AppCompatActivity
             public void onclick(View view, int position ,ArrayList<String> list) {
                 String[] strs = readerVlaue();
                 if (strs == null) {
-                    ToastUtil.showToast(MainActivity_11.this,"请先设置appid和密钥");
+                    ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
                     return;
                 } else if (strs[2].equals("baidu")) {
                     String[] reinfo=list.get(position).split("\n");
@@ -919,11 +1052,11 @@ public class MainActivity_11 extends AppCompatActivity
 
             @Override
             public void longclick(View view, final int position) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity_11.this);
+                AlertDialog.Builder builder=new AlertDialog.Builder(TranslationActivity.this);
                 builder.setTitle("删除？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ToastUtil.showToast(MainActivity_11.this,"已删除");
+                        ToastUtil.showToast(TranslationActivity.this,"已删除");
                         linearAdapter.removeItem(position);
                         linearAdapter.notifyDataSetChanged();
 
@@ -931,7 +1064,7 @@ public class MainActivity_11 extends AppCompatActivity
                 }).setNeutralButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ToastUtil.showToast(MainActivity_11.this,"已取消");
+                        ToastUtil.showToast(TranslationActivity.this,"已取消");
 
                     }
                 }).show();
@@ -951,11 +1084,67 @@ public class MainActivity_11 extends AppCompatActivity
             writer = new FileWriter(dir.getAbsolutePath() + "/userinfo.txt");
             writer.append(appid+","+pw+","+ choose);
             writer.close();
-            ToastUtil.showToast(MainActivity_11.this,"设置成功");
+            ToastUtil.showToast(TranslationActivity.this,"设置成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    /*-------------------------------语音转文字--------------------------*/
+    private void voice_to_text(){
+        // 有交互动画的语音识别器
+        iatDialog = new RecognizerDialog(TranslationActivity.this, mInitListener);
+
+        iatDialog.setListener(new RecognizerDialogListener() {
+            String resultJson = "[";//放置在外边做类的变量则报错，会造成json格式不对（？）
+
+            @Override
+            public void onResult(RecognizerResult recognizerResult, boolean isLast) {
+                System.out.println("-----------------   onResult   -----------------");
+                if (!isLast) {
+                    resultJson += recognizerResult.getResultString() + ",";
+                } else {
+                    resultJson += recognizerResult.getResultString() + "]";
+                }
+
+                if (isLast) {
+                    //解析语音识别后返回的json格式的结果
+                    Gson gson = new Gson();
+                    List<DictationResult> resultList = gson.fromJson(resultJson,
+                            new TypeToken<List<DictationResult>>() {
+                            }.getType());
+                    String result = "";
+                    for (int i = 0; i < resultList.size() - 1; i++) {
+                        result += resultList.get(i).toString();
+                    }
+                    mEtInput.setText(result);
+                    //获取焦点
+                    mEtInput.requestFocus();
+                    //将光标定位到文字最后，以便修改
+                    mEtInput.setSelection(result.length());
+                }
+            }
+
+            @Override
+            public void onError(SpeechError speechError) {
+                //自动生成的方法存根
+                speechError.getPlainDescription(true);
+            }
+        });
+        //开始听写，需将sdk中的assets文件下的文件夹拷入项目的assets文件夹下（没有的话自己新建）
+        iatDialog.show();
+    }
+
+    public static final String TAG = "TranslationActivity";
+    private InitListener mInitListener = new InitListener() {
+        @Override
+        public void onInit(int code) {
+            Log.d(TAG, "SpeechRecognizer init() code = " + code);
+            if (code != ErrorCode.SUCCESS) {
+                Toast.makeText(TranslationActivity.this, "初始化失败，错误码：" + code, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
 
 }

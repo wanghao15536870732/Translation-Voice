@@ -8,8 +8,10 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +39,7 @@ import demo.otote.cn.translationdemo.R;
 import demo.otote.cn.translationdemo.utils.RecognitionManager;
 import demo.otote.cn.translationdemo.utils.SynthesisManager;
 
-public class MainActivity_1 extends AppCompatActivity {
+public class VoiceActivity extends AppCompatActivity {
 
     public static final String TEXT = "translation_detail";
 
@@ -45,14 +47,14 @@ public class MainActivity_1 extends AppCompatActivity {
     private Button btnRecognizerDialog; //带窗口的语音识别
     private Button btnSynthesizer; //语音合成
     private EditText mEtInputText;  //接收用户的内容
-    private final String TAG = "MainActivity_1";
+    private final String TAG = "VoiceActivity";
 
 
     List<String> permissionList = new ArrayList<>(  );
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_main_1);
+        setContentView( R.layout.activity_voice );
         initView();
         setListen();
 
@@ -61,30 +63,35 @@ public class MainActivity_1 extends AppCompatActivity {
         String translation_result = intent.getStringExtra( TEXT );
         mEtInputText.setText( translation_result );
         //获取手机录音机使用权限，听写、识别、语义理解需要用到此权限
-        if(ContextCompat.checkSelfPermission( MainActivity_1.this, Manifest.
+        if(ContextCompat.checkSelfPermission( VoiceActivity.this, Manifest.
                 permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
             permissionList.add( Manifest.permission.RECORD_AUDIO );
         }
          //读取手机信息权限
-        if(ContextCompat.checkSelfPermission( MainActivity_1.this, Manifest.
+        if(ContextCompat.checkSelfPermission( VoiceActivity.this, Manifest.
                 permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
             permissionList.add( Manifest.permission.READ_PHONE_STATE );
         }
         //SD卡读写的权限（如果需要保存音频文件到本地的话）
-        if(ContextCompat.checkSelfPermission( MainActivity_1.this, Manifest.
+        if(ContextCompat.checkSelfPermission( VoiceActivity.this, Manifest.
                 permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             permissionList.add( Manifest.permission.READ_EXTERNAL_STORAGE );
         }
         if (! permissionList.isEmpty()){
             String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions( MainActivity_1.this,permissions,1 );
+            ActivityCompat.requestPermissions( VoiceActivity.this,permissions,1 );
         }else {
             setRecognitionManager();
         }
 
-
-
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled( true );
+            actionBar.setTitle( "语音合成" );
+        }
     }
+
+
 
     private void setRecognitionManager(){
         RecognitionManager.getSingleton().startRecognitionWithDialog(this, new RecognitionManager.onRecognitionListen() {
@@ -148,7 +155,7 @@ public class MainActivity_1 extends AppCompatActivity {
         //有动画效果
          RecognizerDialog iatDialog;
         // 初始化有交互动画的语音识别器
-        iatDialog = new RecognizerDialog(MainActivity_1.this, mInitListener);
+        iatDialog = new RecognizerDialog(VoiceActivity.this, mInitListener);
         //设置监听，实现听写结果的回调
         iatDialog.setListener(new RecognizerDialogListener() {
             String resultJson = "[";//放置在外边做类的变量则报错，会造成json格式不对
@@ -188,7 +195,7 @@ public class MainActivity_1 extends AppCompatActivity {
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                Toast.makeText(MainActivity_1.this, "初始化失败，错误码：" + code, Toast.LENGTH_SHORT).show();
+                Toast.makeText(VoiceActivity.this, "初始化失败，错误码：" + code, Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -261,7 +268,7 @@ public class MainActivity_1 extends AppCompatActivity {
     /*-------------------------------语音合成--------------------------*/
     public void SpeechSynthesizer(String text){
         //1.创建SpeechSynthesizer对象, 第二个参数：本地合成时传InitListener
-        SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer(MainActivity_1.this, null);
+        SpeechSynthesizer mTts = SpeechSynthesizer.createSynthesizer(VoiceActivity.this, null);
 
         /**
          2.合成参数设置，详见《科大讯飞MSC API手册(Android)》SpeechSynthesizer 类
@@ -290,9 +297,9 @@ public class MainActivity_1 extends AppCompatActivity {
         if (code != ErrorCode.SUCCESS) {
             if (code == ErrorCode.ERROR_COMPONENT_NOT_INSTALLED) {
                 //上面的语音配置对象为初始化时：
-                Toast.makeText(MainActivity_1.this, "语音组件未安装", Toast.LENGTH_LONG).show();
+                Toast.makeText(VoiceActivity.this, "语音组件未安装", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(MainActivity_1.this, "语音合成失败,错误码: " + code, Toast.LENGTH_LONG).show();
+                Toast.makeText(VoiceActivity.this, "语音合成失败,错误码: " + code, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -343,5 +350,15 @@ public class MainActivity_1 extends AppCompatActivity {
                 break;
             default:
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 }

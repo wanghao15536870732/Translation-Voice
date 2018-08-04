@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="demo.otote.cn.translationdemo.activity.MainActivity_1"
+        tools:context="demo.otote.cn.translationdemo.activity.TranslationActivity"
         tools:showIn="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -32,7 +32,7 @@
 
                 <Button
                     android:id="@+id/btn_original"
-                    android:layout_width="30dp"
+                    android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:text="自动"
                     android:textColor="#FF212121"
@@ -51,7 +51,7 @@
                     android:src="@mipmap/tran" />
                 <Button
                     android:id="@+id/btn_ts"
-                    android:layout_width="30dp"
+                    android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@id/btn_original"
                     android:text="中文"
@@ -97,6 +97,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bt_selector"
                 android:paddingTop="10dp"
+                android:textSize="18sp"
                 android:text="翻译" />
             <Button
                 android:id="@+id/btn_speech"
@@ -105,8 +106,18 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bt_selector"
                 android:paddingTop="10dp"
+                android:textSize="18sp"
                 android:text="语音合成"/>
 
+            <Button
+                android:id="@+id/btn_voice_to_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bt_selector"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:text="语音转文字"/>
             <TextView
                 android:id="@+id/tv_result"
                 android:layout_width="match_parent"
@@ -135,8 +146,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
         </ScrollView>
-
-
     </RelativeLayout>
 
 
