@@ -49,6 +49,7 @@
 |科大讯飞语音识别跟界面|科大讯飞语音合成界面|
 |<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162224.png"/></div> | <div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162231.png"/></div>|
  
+ </div>
  
  
 ## 添加的依赖
