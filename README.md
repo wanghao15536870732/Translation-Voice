@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <th>翻译功能</th>
-            <td align="center">用户只需安装好app,并且在保持网络良好的情况下，即可进行十几种语言的相互翻译</td>
+            <td align="center">用户只需安装好app,并且在保持网络良好的情况下，即可进行十八种语言的相互翻译</td>
         </tr>
         <tr>
             <th>生词本功能</th>
@@ -33,19 +33,26 @@
             <td align="center">用户通过点击该功能，可以将翻译界面翻译好的词，进行语音播放，暂时只支持汉语跟英语</td>
         </tr>
         <tr>
+             <th>语音转文字</th>
+            <td align="center">用户通过点击该功能，可以将语音转为文字，暂时也是只支持英语跟汉语</td>
+        </tr>
+        <tr>
             
 </table>
 
 <br />
 
+</div>
+
+<div align="center">
 
 ## 功能界面
 |||
 |:--:|:--:|
-|百度翻译界面|侧滑栏界面|
-|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162118.png"/></div>|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162101.png"/>|
-|实际中语言互相翻译|侧滑栏的生词本|
-|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162149.png"/></div> |<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162237.png"/></div>|
+|百度翻译界面(十八种语言)|侧滑栏界面|
+|![Screenshot_20180805-170422.png](https://upload-images.jianshu.io/upload_images/9140378-c9d2a4ba02ab625f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300)|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162101.png"/>|
+|侧滑栏的生词本|主界面翻译过的组可进行收藏跟删除|
+|<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162237.png"/></div>|![Screenshot_20180805-170415.png](https://upload-images.jianshu.io/upload_images/9140378-ed116e6bc4feac16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/300) |
 |科大讯飞语音识别跟界面|科大讯飞语音合成界面|
 |<div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162224.png"/></div> | <div align=center><img width="290" height="505" src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/picture/Screenshot_20180712-162231.png"/></div>|
  
