@@ -71,13 +71,13 @@
     implementation files('libs/Msc.jar')
     implementation files('libs/gson-2.8.1.jar')
  ```
- ## 登陆[科大讯飞的官网](http://www.xfyun.cn/)注册账号下载新的SDK导入<br>并且修改MyApplication.java类的科大讯飞的参数即可使用
+ ### 登陆[科大讯飞的官网](http://www.xfyun.cn/)注册账号下载新的SDK导入<br>并且修改MyApplication.java类的科大讯飞的参数即可使用
  ```java
         SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
         RecognitionManager.getSingleton().init(this,"5ad97691");
         SynthesisManager.getSingleton().init(this,"5ad97691");
  ```
- ## 登陆[翻译开放平台](https://fanyi-api.baidu.com/api/trans/product/index)<br>并申请成为开发者创建应用将你的AppID和password写入对应文件即可<br>别忘了重新导入jar包
+ ### 登陆[翻译开放平台](https://fanyi-api.baidu.com/api/trans/product/index)<br>并申请成为开发者创建应用将你的AppID和password写入对应文件即可<br>别忘了重新导入jar包
  #### IDActivity.class
  ```java
                 String appid = "你应用的AppID"
@@ -94,5 +94,20 @@
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-           }
  ```
+## LICENSE
+```java
+   Copyright 2018 wanghao15536870732
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+limitations under the License.
+```
