@@ -3,10 +3,6 @@ package demo.otote.cn.translationdemo;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * Created by ljb on 2018/4/16.
- */
-
 public class ToastUtil {
     private static Toast myToast;
     public  static void showToast(Context context, String msg){

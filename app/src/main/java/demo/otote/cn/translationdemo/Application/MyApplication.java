@@ -7,13 +7,8 @@ import com.iflytek.cloud.SpeechUtility;
 import demo.otote.cn.translationdemo.utils.RecognitionManager;
 import demo.otote.cn.translationdemo.utils.SynthesisManager;
 
-/**
- * 功能:
- * 修改时间：
- * 修改备注：
- */
 
-public class MyApplication_1 extends Application {
+public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

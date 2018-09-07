@@ -1,10 +1,5 @@
 package demo.otote.cn.translationdemo.BaseEnum;
 
-/**
- * 功能:
- * 修改时间：
- * 修改备注：
- */
 
 public enum DomainEnum {
     iat,     //短信和日常用语

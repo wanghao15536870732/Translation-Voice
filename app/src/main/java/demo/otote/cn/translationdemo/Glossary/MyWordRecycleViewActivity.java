@@ -25,10 +25,6 @@ public class MyWordRecycleViewActivity extends AppCompatActivity {
     private RecyclerView mRvMain;
     private MyOpenHelper myOpenHelper;
     private TextView mTvNotice;
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +61,6 @@ public class MyWordRecycleViewActivity extends AppCompatActivity {
         return list;
 
     }
-
 
 
 

@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
-        android:name=".Application.MyApplication_1"
+        android:name=".Application.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,13 +31,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="InnerclassSeparator">
-        <activity
-            android:name=".activity.IDActivity"
-            android:label="设置" />
-        <activity
-            android:name=".activity.GuideActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="欢迎" />
         <activity android:name=".activity.TranslationActivity"
             android:label="Translation"
             android:theme="@style/AppTheme.NoActionBar">

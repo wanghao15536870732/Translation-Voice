@@ -184,7 +184,6 @@ public class TranslationActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-
                 String[] strs = readerVlaue();
                 if (strs == null) {
                     ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
@@ -435,12 +434,8 @@ public class TranslationActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_home) {
 
-        } else if (id == R.id.nav_setting) {
-            Intent intent = new Intent(TranslationActivity.this, IDActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_help) {
             Intent intent = new Intent(TranslationActivity.this, HelpActivity.class);
             startActivity(intent);
@@ -448,7 +443,6 @@ public class TranslationActivity extends AppCompatActivity
             Intent intent = new Intent(TranslationActivity.this, MyWordRecycleViewActivity.class);
             startActivity(intent);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -494,8 +488,8 @@ public class TranslationActivity extends AppCompatActivity
      */
     public String Voice(String json) {//发音
         try {
-            JSONObject obj=new JSONObject(json);
-            String voice=obj.getString("speakUrl");
+            JSONObject obj = new JSONObject(json);
+            String voice = obj.getString("speakUrl");
             return voice;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -513,10 +507,10 @@ public class TranslationActivity extends AppCompatActivity
         try {
             JSONObject obj = new JSONObject(json);
             JSONArray array = obj.getJSONArray("translation");
-            String result="";
-            for (int i=0;i<array.length();i++){
-                String tran=array.getString(i);
-                result="\n"+tran;
+            String result = "";
+            for (int i = 0;i < array.length();i ++){
+                String tran = array.getString(i);
+                result = "\n" + tran;
             }
 
             return result;
@@ -536,7 +530,7 @@ public class TranslationActivity extends AppCompatActivity
         try {
             JSONObject obj = new JSONObject(json);
 
-            String errorcode=obj.getString("errorCode");
+            String errorcode = obj.getString("errorCode");
 
             return errorcode;
         } catch (JSONException e) {
@@ -553,12 +547,12 @@ public class TranslationActivity extends AppCompatActivity
      */
     public String Explain(String json) {
         try {
-            JSONObject obj=new JSONObject(json);
-            JSONObject obj1=obj.getJSONObject("basic");
-            JSONArray array=obj1.getJSONArray("explains");
-            String ttt="";
-            for(int i=0;i<array.length();i++){
-                ttt=array.getString(i)+"\n"+ttt;
+            JSONObject obj = new JSONObject(json);
+            JSONObject obj1 = obj.getJSONObject("basic");
+            JSONArray array = obj1.getJSONArray("explains");
+            String ttt = "";
+            for(int i = 0;i < array.length();i ++){
+                ttt = array.getString(i) + "\n" + ttt;
             }
 
             return ttt;
@@ -578,12 +572,12 @@ public class TranslationActivity extends AppCompatActivity
         try {
             JSONObject obj = new JSONObject(json);
             JSONArray array = obj.getJSONArray("web");
-            String lll="";
-            for (int i=0;i<array.length();i++){
+            String lll = "";
+            for (int i = 0;i < array.length();i ++){
                 obj = array.getJSONObject(i);
                 String word = obj.getString("value");
                 String key=obj.getString("key");
-                lll=key+" : "+word+"\n"+lll;
+                lll = key + " : " + word + "\n" + lll;
             }
             return lll;
         } catch (JSONException e) {
@@ -600,8 +594,8 @@ public class TranslationActivity extends AppCompatActivity
      */
     public String Query(String json) {
         try {
-            JSONObject obj=new JSONObject(json);
-            String query=obj.getString("query");
+            JSONObject obj = new JSONObject(json);
+            String query = obj.getString("query");
             return query;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -625,15 +619,15 @@ public class TranslationActivity extends AppCompatActivity
         ContentYouDao.setValue(strs[0], strs[1]);
 
 
-        if(info==null){
+        if(info == null){
             info = mEtInput.getText().toString();
             if(TextUtils.isEmpty(mEtInput.getText())) {
                 ToastUtil.showToast(TranslationActivity.this, "请输入要翻译的内容");
                 return;
             }
         }else{
-            info=info;
-            temp=1;
+            info = info;
+            temp = 1;
         }
 
 
@@ -657,35 +651,35 @@ public class TranslationActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        String query=Query(json4);
-        String tranresult=TranResult(json4);
-        String explain=Explain(json4);
-        String terms=Terms(json4);
-        String voice=Voice(json4);
-        String errorcode=ErrorCode(json4);
+        String query = Query(json4);
+        String tranresult = TranResult(json4);
+        String explain = Explain(json4);
+        String terms = Terms(json4);
+        String voice = Voice(json4);
+        String errorcode = ErrorCode(json4);
         setUrl(voice);
-        String result="";
+        String result = "";
 
 
         if(errorcode.equals("0")){
-            if(explain==null||terms==null){
-                result=query+"    "+"\n"+tranresult;
+            if(explain == null || terms == null){
+                result = query + "    "+ "\n" + tranresult;
             }else{
-                result=query+"    "+"\n"+tranresult+"\n"+"\n\n"+explain+"\n"+terms;
+                result = query + "    "+ "\n" + tranresult + "\n" + "\n\n" + explain + "\n" + terms;
             }
         }else {
-            ToastUtil.showToast(TranslationActivity.this,"errorcode:"+errorcode);
+            ToastUtil.showToast(TranslationActivity.this,"errorcode:" + errorcode);
             return;
         }
 
 
-        SpannableStringBuilder myWord=new SpannableStringBuilder();
+        SpannableStringBuilder myWord = new SpannableStringBuilder();
 
         myWord.append(result);
         Drawable drawable = getResources().getDrawable(R.mipmap.play);
         drawable.setBounds(0,0,50,50);
-        ImageSpan imageSpan=new ImageSpan(drawable);
-        myWord.setSpan(imageSpan,info.length()+2,info.length()+4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        ImageSpan imageSpan = new ImageSpan(drawable);
+        myWord.setSpan(imageSpan,info.length() + 2,info.length() + 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         myWord.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -717,12 +711,11 @@ public class TranslationActivity extends AppCompatActivity
              mTvResult.setVisibility(View.GONE);
              ToastUtil.showToast(TranslationActivity.this,"请输入要翻译的内容");
          }else {
-              if (mTvResult.getText().toString()!=null){
+              if (mTvResult.getText().toString() != null){
                  mTvResult.setVisibility(View.VISIBLE);
                   String word=mEtInput.getText().toString();
-                  String wordtoresult=mTvResult.getText().toString();
-                  String s=tranresult.replace("\n","");
-                  if (temp==0){
+                  String s = tranresult.replace("\n","");
+                  if (temp == 0){
                       click2(view, word, s);
                       loadHistory();
                   }
@@ -734,11 +727,12 @@ public class TranslationActivity extends AppCompatActivity
     }
 
     public void OriginalLanguage(){
-        final AlertDialog.Builder builder=new AlertDialog.Builder(TranslationActivity.this);
-        builder.setTitle("选择语言").setSingleChoiceItems(array, OgId, new DialogInterface.OnClickListener() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(TranslationActivity.this);
+        builder.setTitle("选择语言")
+                .setSingleChoiceItems(array, OgId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ToastUtil.showToast(TranslationActivity.this,"已选择"+array[i]);
+                ToastUtil.showToast(TranslationActivity.this,"已选择" + array[i]);
                 Log.d("选择的语言",array[i]);
 
                 setOgId(i);
@@ -822,7 +816,7 @@ public class TranslationActivity extends AppCompatActivity
         }).show();
     }
     public void TranLanguage(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(TranslationActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TranslationActivity.this);
         builder.setTitle("请选择目标语言").setSingleChoiceItems(array, TsId, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -919,7 +913,7 @@ public class TranslationActivity extends AppCompatActivity
             return;
         }
 
-        if(info==null){
+        if(info == null){
             info = mEtInput.getText().toString();
             if(TextUtils.isEmpty(mEtInput.getText())) {
                 ToastUtil.showToast(TranslationActivity.this, "请输入要翻译的内容");
@@ -947,11 +941,11 @@ public class TranslationActivity extends AppCompatActivity
                 mTvResult.setVisibility(View.GONE);
                 ToastUtil.showToast(TranslationActivity.this,"请输入要翻译的内容");
             }else {
-                if (mTvResult.getText().toString()!=null){
+                if (mTvResult.getText().toString() != null){
                     mTvResult.setVisibility(View.VISIBLE);
                     String word=mEtInput.getText().toString();
-                    String wordtoresult=mTvResult.getText().toString();
-                    if (temp==0){
+                    String wordtoresult = mTvResult.getText().toString();
+                    if (temp == 0){
                         click2(view, word, wordtoresult);
                         loadHistory();
                     }
@@ -981,15 +975,14 @@ public class TranslationActivity extends AppCompatActivity
 
     public ArrayList<String> inputtohistory(){
         ArrayList<String> list=new ArrayList<String>();
-        String[] arr;
-        SQLiteDatabase db=myHistory.getReadableDatabase();
-        Cursor cursor=db.rawQuery("select * from info",null);
-        if(cursor!=null&&cursor.getCount()>0){
+        SQLiteDatabase db = myHistory.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from info",null);
+        if(cursor != null&&cursor.getCount() > 0){
             while(cursor.moveToNext()){
-                String word=cursor.getString(1);
-                String result=cursor.getString(2);
-                Log.d("word:",word+"result："+result);
-                list.add(word+"\n"+result);
+                String word = cursor.getString(1);
+                String result = cursor.getString(2);
+                Log.d("word:",word + "result：" + result);
+                list.add(word + "\n" + result);
             }
         }
         cursor.close();
@@ -1005,10 +998,10 @@ public class TranslationActivity extends AppCompatActivity
 
 
 
-        final ArrayList<String> list=inputtohistory();
+        final ArrayList<String> list = inputtohistory();
         Log.d("获取的数组结果：",list.toString());
-        mRvMain=findViewById(R.id.rv_main);
-        final LinearAdapter linearAdapter=new LinearAdapter(TranslationActivity.this,list);
+        mRvMain = findViewById(R.id.rv_main);
+        final LinearAdapter linearAdapter = new LinearAdapter(TranslationActivity.this,list);
         mRvMain.setItemAnimator(new DefaultItemAnimator());
         mRvMain.setLayoutManager(new LinearLayoutManager(TranslationActivity.this));
         mRvMain.setAdapter(linearAdapter);
@@ -1018,7 +1011,7 @@ public class TranslationActivity extends AppCompatActivity
             @Override
             public void onclick(View view, int position) {
                 ToastUtil.showToast(TranslationActivity.this,"已收藏");
-                String[] s=list.get(position).split("\n");
+                String[] s = list.get(position).split("\n");
                 click1(view,s[0],s[1]);
             }
         });
@@ -1034,14 +1027,14 @@ public class TranslationActivity extends AppCompatActivity
                     ToastUtil.showToast(TranslationActivity.this,"请先设置appid和密钥");
                     return;
                 } else if (strs[2].equals("baidu")) {
-                    String[] reinfo=list.get(position).split("\n");
+                    String[] reinfo = list.get(position).split("\n");
                     mEtInput.setText(reinfo[0]);
                     baiduTran(view,reinfo[0]);
                     return;
                 }else if (strs[2].equals("youdao")){
                     mBtnOriginal.setText("英语");
                     mBtnTs.setText("中文");
-                    String[] reinfo=list.get(position).split("\n");
+                    String[] reinfo = list.get(position).split("\n");
                     Log.d("测试重新输入：",reinfo[0]);
                     mEtInput.setText(reinfo[0]);
                     YouDao(view,reinfo[0]);
@@ -1052,7 +1045,7 @@ public class TranslationActivity extends AppCompatActivity
 
             @Override
             public void longclick(View view, final int position) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(TranslationActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(TranslationActivity.this);
                 builder.setTitle("删除？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -1082,9 +1075,8 @@ public class TranslationActivity extends AppCompatActivity
         FileWriter writer;
         try {
             writer = new FileWriter(dir.getAbsolutePath() + "/userinfo.txt");
-            writer.append(appid+","+pw+","+ choose);
+            writer.append(appid + "," +pw + "," + choose);
             writer.close();
-            ToastUtil.showToast(TranslationActivity.this,"设置成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1145,7 +1137,5 @@ public class TranslationActivity extends AppCompatActivity
             }
         }
     };
-
-
 }
 

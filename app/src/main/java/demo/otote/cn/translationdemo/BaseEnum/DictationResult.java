@@ -2,11 +2,7 @@ package demo.otote.cn.translationdemo.BaseEnum;
 
 import java.util.List;
 
-/**
- * 功能:
- * 修改时间：
- * 修改备注：
- */
+
 
 public class DictationResult {
     private String sn;

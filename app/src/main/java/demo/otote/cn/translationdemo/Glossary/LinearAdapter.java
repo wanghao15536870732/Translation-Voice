@@ -13,10 +13,6 @@ import java.util.ArrayList;
 
 import demo.otote.cn.translationdemo.R;
 
-/**
- * Created by ljb on 2018/4/19.
- */
-
 public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearViewHolder> {
 
 
@@ -96,7 +92,6 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearView
     }
 
 
-
     /**
      *按钮点击事件需要的方法
      */
@@ -110,7 +105,6 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearView
     public void textviewonSetOnclick(TextViewInterface textViewInterface){
         this.textViewInterface=textViewInterface;
     }
-
 
     /**
      * 按钮点击事件对应的接口
@@ -153,7 +147,6 @@ public class LinearAdapter extends RecyclerView.Adapter<LinearAdapter.LinearView
         }
 
     }
-
 
 }
 

@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 import demo.otote.cn.translationdemo.R;
 
-/**
- * Created by ljb on 2018/4/19.
- */
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.LinearViewHolder> {
 

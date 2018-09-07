@@ -18,12 +18,6 @@
             android:icon="@drawable/ic_event_note_black_24dp"/>
     </group>
 
-    <group android:id="@+id/nav_settings" android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_setting"
-            android:title="设置"
-            android:icon="@drawable/ic_settings_black_24dp"/>
-    </group>
 
     <group android:id="@+id/nav_helps" android:checkableBehavior="single">
         <item
