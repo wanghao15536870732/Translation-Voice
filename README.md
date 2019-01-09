@@ -1,15 +1,15 @@
 <div align="center">
 <img src="https://github.com/wanghao15536870732/Translation-Voice/blob/master/logo_t.png" height="100px" width="100px"/>
  
-<h1>  Translation-Voice（语译） </h1>
+<h1>  Translation-Voice</h1>
 
-#### 一个整合百度翻译（支持多种语言）跟科大讯飞的口语翻译app
+#### Support multiple languages spoken translation app
 <br />
 <a href="https://github.com/wanghao15536870732/Translation-Voice/blob/master/app-release.apk?raw=true">点击下载</a>
 
 <br />
 
-### Feature (功能)
+#### Feature 
 
 <table border="1px solid green" style="border-collapse: collapse" cellpadding="15">
         <tr>
@@ -46,7 +46,7 @@
 
 <div align="center">
 
-## 功能界面
+#### Software interface display
 ||||
 |:--:|:--:|:--:|
 |百度翻译界面(十八种语言)|侧滑栏界面|侧滑栏的生词本|
@@ -57,7 +57,7 @@
  </div>
  
  
-## 添加的依赖
+#### Dependence
 ```java
  implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -69,7 +69,7 @@
     implementation files('libs/Msc.jar')
     implementation files('libs/gson-2.8.1.jar')
  ```
- #### [科大讯飞语音开放平台](http://www.xfyun.cn/)
+ #### [Ustc iflytek open platform for voice](http://www.xfyun.cn/)
  
  MyApplication.java
  ```java
@@ -77,7 +77,7 @@ SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
 RecognitionManager.getSingleton().init(this,"5ad97691");
 SynthesisManager.getSingleton().init(this,"5ad97691");
  ```
- #### [百度翻译开放平台](https://fanyi-api.baidu.com/api/trans/product/index)
+ #### [Baidu translation open platform](https://fanyi-api.baidu.com/api/trans/product/index)
  
  IDActivity.class
  ```java
