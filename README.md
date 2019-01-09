@@ -5,7 +5,7 @@
 
 #### Support multiple languages spoken translation app
 <br />
-<a href="https://github.com/wanghao15536870732/Translation-Voice/blob/master/app-release.apk?raw=true">点击下载</a>
+<a href="https://github.com/wanghao15536870732/Translation-Voice/blob/master/app-release.apk?raw=true">Click to Download</a>
 
 <br />
 
@@ -96,7 +96,7 @@ SynthesisManager.getSingleton().init(this,"5ad97691");
      e.printStackTrace();
  }
  ```
-## LICENSE
+#### LICENSE
 ```java
    Copyright 2018 wanghao15536870732
 
