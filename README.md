@@ -69,29 +69,32 @@
     implementation files('libs/Msc.jar')
     implementation files('libs/gson-2.8.1.jar')
  ```
- ### 登陆[科大讯飞的官网](http://www.xfyun.cn/)注册账号下载新的SDK导入<br>并且修改MyApplication.java类的科大讯飞的参数即可使用
+ #### [科大讯飞语音开放平台](http://www.xfyun.cn/)
+ 
+ MyApplication.java
  ```java
-        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
-        RecognitionManager.getSingleton().init(this,"5ad97691");
-        SynthesisManager.getSingleton().init(this,"5ad97691");
+SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5ad97691");
+RecognitionManager.getSingleton().init(this,"5ad97691");
+SynthesisManager.getSingleton().init(this,"5ad97691");
  ```
- ### 登陆[翻译开放平台](https://fanyi-api.baidu.com/api/trans/product/index)<br>并申请成为开发者创建应用将你的AppID和password写入对应文件即可<br>别忘了重新导入jar包
- #### IDActivity.class
+ #### [百度翻译开放平台](https://fanyi-api.baidu.com/api/trans/product/index)
+ 
+ IDActivity.class
  ```java
-                String appid = "你应用的AppID"
-                String pw = "对应的password"
+ String appid = "你应用的AppID"
+ String pw = "对应的password"
 
-                File dir = getApplicationContext().getFilesDir();//查找这个应用下的所有文件所在的目录
-                Log.d("文件夹：" , dir.getAbsolutePath());
-                FileWriter writer;
-                try {
-                    writer = new FileWriter(dir.getAbsolutePath() + "/userinfo.txt");
-                    writer.append(appid+","+pw+","+choose);
-                    writer.close();
-                    ToastUtil.showToast(IDActivity.this,"设置成功");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+ File dir = getApplicationContext().getFilesDir();//查找这个应用下的所有文件所在的目录
+ Log.d("文件夹：" , dir.getAbsolutePath());
+ FileWriter writer;
+ try {
+     writer = new FileWriter(dir.getAbsolutePath() + "/userinfo.txt");
+     writer.append(appid+","+pw+","+choose);
+     writer.close();
+     ToastUtil.showToast(IDActivity.this,"设置成功");
+ } catch (IOException e) {
+     e.printStackTrace();
+ }
  ```
 ## LICENSE
 ```java
